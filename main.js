@@ -11,7 +11,8 @@ const graph = {
   'rect-w': 2,
   'marginX': 70,
   'marginY': 50,
-  'widthLegend': 550
+  'widthLegend': 500,
+  'heightLegend': 500
 }
 
 
@@ -42,6 +43,22 @@ const scaleY = d3.scaleBand()
 .range([graph.height - graph['marginY'],0])
 
 
+const rectLegend = d3.range(d3.min(monthlyVariance, d => baseTemp - d['variance']), d3.max(monthlyVariance, d=> baseTemp - d['variance']))
+
+const scaleLegend = d3.scaleBand()
+.domain(rectLegend)
+.range([0,graph.widthLegend])
+.padding(0)
+
+const scaleLegendColor = d3.scaleLinear()
+.domain([d3.min(monthlyVariance, d => baseTemp - d['variance']), d3.max(monthlyVariance, d=> baseTemp - d['variance'])])
+.range(['blue','red'])
+.interpolate(d3.interpolateHcl)
+
+
+console.log(rectLegend.length)
+
+
 d3.select('svg')
 .append('g')
 .attr('id','x-axis')
@@ -69,20 +86,33 @@ d3.select('svg')
 .attr('data-month',data => data.month -1) //in the data month are indexed (1,2,...12) and not (0,1,2...11)
 .attr('data-year', data => data.year)
 .attr('data-temp', data => baseTemp - data.variance)
-.attr('width','1')
-.attr('height','40')
+.attr('width','3')
+.attr('height','46')
 .attr('x',data => graph.marginX+ 0.8 +scaleX(new Date().setFullYear(data.year)) )
 .attr('y', data =>scaleY(data['month']-1))
+.attr('fill',data => scaleLegendColor(baseTemp - data['variance']))
 
-
-
-
-/* 
 d3.select('#app')
 .append('svg')
-.attr('id', 'legend')
-.attr('width', graph.width)
-.attr('height', 200)
+.attr('id','legend')
+.attr('width',graph.widthLegend)
+.attr('height', graph.heightLegend)
+
+d3.select('#legend')
 .append('g')
-.attr('transform', `translate(${graph.marginX}, ${100})`)
- */
+.attr('id','x-axis-legend')
+.attr('transform', `translate(${graph.marginX},${12})`)
+.call(d3.axisBottom(scaleLegend).tickFormat(d3.format('.1f')))
+
+console.log(scaleLegend.bandwidth())
+
+d3.select('#legend')
+.selectAll('rect')
+.data(rectLegend)
+.enter()
+.append('rect')
+.attr('width',scaleLegend.bandwidth())
+.attr('height',10)
+.attr('x',d =>  graph.marginX +scaleLegend(d))
+.attr('y',0)
+.attr('fill',d => scaleLegendColor(d))
