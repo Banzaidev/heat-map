@@ -56,9 +56,6 @@ const scaleLegendColor = d3.scaleLinear()
 .interpolate(d3.interpolateHcl)
 
 
-console.log(rectLegend.length)
-
-
 d3.select('svg')
 .append('g')
 .attr('id','x-axis')
@@ -86,6 +83,7 @@ d3.select('svg')
 .attr('data-month',data => data.month -1) //in the data month are indexed (1,2,...12) and not (0,1,2...11)
 .attr('data-year', data => data.year)
 .attr('data-temp', data => baseTemp - data.variance)
+.attr('data-variance',data=>data.variance)
 .attr('width','3')
 .attr('height','46')
 .attr('x',data => graph.marginX+ 0.8 +scaleX(new Date().setFullYear(data.year)) )
@@ -104,7 +102,6 @@ d3.select('#legend')
 .attr('transform', `translate(${graph.marginX},${12})`)
 .call(d3.axisBottom(scaleLegend).tickFormat(d3.format('.1f')))
 
-console.log(scaleLegend.bandwidth())
 
 d3.select('#legend')
 .selectAll('rect')
@@ -116,3 +113,43 @@ d3.select('#legend')
 .attr('x',d =>  graph.marginX +scaleLegend(d))
 .attr('y',0)
 .attr('fill',d => scaleLegendColor(d))
+
+
+d3.select('#app')
+.append('div')
+.attr('id','tooltip')
+.attr('data-year','')
+
+
+d3.select('#tooltip')
+.append('p')
+.attr('id','year-tooltip')
+
+d3.select('#tooltip')
+.append('h6')
+.attr('id','variance-tooltip')
+
+d3.select('#tooltip')
+.append('h6')
+.attr('id','temp-tooltip')
+
+d3.select('#app')
+.selectAll('.cell')
+.on('mouseover', (e) => {
+  
+  let yearTooltip = document.querySelector('#year-tooltip')
+  let varianceTooltip = document.querySelector('#variance-tooltip')
+  let tempTooltip = document.querySelector('#temp-tooltip')
+  let toolTip = document.querySelector('#tooltip')
+
+  let dataYear = e.currentTarget.getAttribute('data-year')
+  let dataVariance = e.currentTarget.getAttribute('data-variance')
+  let dataTemp = e.currentTarget.getAttribute('data-temp')
+
+  yearTooltip.textContent = dataYear
+  varianceTooltip.textContent = dataVariance
+  tempTooltip.textContent = dataTemp
+
+  toolTip.setAttribute('data-year',dataYear)
+})
+
