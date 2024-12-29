@@ -68,9 +68,9 @@ d3.select('svg')
 .attr('id', 'y-axis')
 .attr('transform', `translate(${graph.marginX},0)`)
 .call(d3.axisLeft(scaleY).tickFormat(t => {
-  let c = new Date()
-  c.setMonth(t)
-  let month = c.toLocaleString('en-gb',{month:'long'})
+  let date = new Date()
+  date.setMonth(t)
+  let month = date.toLocaleString('en-gb',{month:'long'})
   return month
 }))
 
@@ -122,7 +122,7 @@ d3.select('#app')
 
 
 d3.select('#tooltip')
-.append('p')
+.append('h6')
 .attr('id','year-tooltip')
 
 d3.select('#tooltip')
@@ -136,7 +136,7 @@ d3.select('#tooltip')
 d3.select('#app')
 .selectAll('.cell')
 .on('mouseover', (e) => {
-  
+
   let yearTooltip = document.querySelector('#year-tooltip')
   let varianceTooltip = document.querySelector('#variance-tooltip')
   let tempTooltip = document.querySelector('#temp-tooltip')
@@ -146,9 +146,15 @@ d3.select('#app')
   let dataVariance = e.currentTarget.getAttribute('data-variance')
   let dataTemp = e.currentTarget.getAttribute('data-temp')
 
-  yearTooltip.textContent = dataYear
-  varianceTooltip.textContent = dataVariance
-  tempTooltip.textContent = dataTemp
+  let dataMonth = e.currentTarget.getAttribute('data-month')
+  let date = new Date()
+  date.setMonth(dataMonth)
+  let month = date.toLocaleString('en-gb',{month:'long'})
+
+  yearTooltip.textContent = `Year: ${dataYear} -${month}`
+  varianceTooltip.textContent = `Variance: ${dataVariance}`
+  tempTooltip.textContent = `Temperature: ${dataTemp}`
+
 
   toolTip.setAttribute('data-year',dataYear)
 })
