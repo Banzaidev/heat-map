@@ -6,7 +6,7 @@ const data = await d3.json('https://raw.githubusercontent.com/freeCodeCamp/Proje
 const baseTemp = data['baseTemperature']
 const monthlyVariance = data['monthlyVariance']
 const graph = {
-  'width': 900,
+  'width': 1400,
   'height': 600,
   'rect-w': 2,
   'marginX': 70,
@@ -84,9 +84,10 @@ d3.select('svg')
 .attr('data-year', data => data.year)
 .attr('data-temp', data => baseTemp - data.variance)
 .attr('data-variance',data=>data.variance)
-.attr('width','3')
+.attr('width','5')
 .attr('height','46')
-.attr('x',data => graph.marginX+ 0.8 +scaleX(new Date().setFullYear(data.year)) )
+//.attr('x',data => graph.marginX+ 0.8 +scaleX(new Date().setFullYear(data.year)) ) setFullYear return a number and not a Date obj, which is required for d3.scaleTime
+.attr('x',data => graph.marginX+ 0.8 +scaleX(new Date(data.year,0)) )
 .attr('y', data =>scaleY(data['month']-1))
 .attr('fill',data => scaleLegendColor(baseTemp - data['variance']))
 
