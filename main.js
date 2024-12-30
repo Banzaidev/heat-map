@@ -127,6 +127,7 @@ d3.select('#app')
 .attr('hidden','true')
 .style('background-color','rgba(0,0,0,0.50)')
 .style('color','white')
+.style('font-size','17px')
 .style('padding','10px')
 .style('border-radius','5px')
 
@@ -173,7 +174,6 @@ d3.select('#app')
   toolTip.style.position = 'absolute'
   toolTip.style.left = `${e.clientX+10}px`
   toolTip.style.top = `${e.clientY+10}px`
-  console.log(e)
 
 })
 
