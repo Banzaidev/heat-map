@@ -11,3 +11,23 @@
     flex-direction: column;
     align-items: center;
 }
+
+#author{
+    margin: 10px;
+}
+
+#author>a{
+    text-decoration: none;
+    
+}
+
+#author>a:link{
+    color: black;
+}
+
+#author>a:visited{
+    color: black;
+}
+#author>a:hover{
+    color: blue;
+}
