@@ -91,6 +91,10 @@ d3.select('svg')
 .attr('y', data =>scaleY(data['month']-1))
 .attr('fill',data => scaleLegendColor(baseTemp - data['variance']))
 
+d3.selectAll('.cell')
+.style('stroke','black')
+.style('stroke-width','0.20px')
+
 d3.select('#app')
 .append('svg')
 .attr('id','legend')
@@ -120,6 +124,11 @@ d3.select('#app')
 .append('div')
 .attr('id','tooltip')
 .attr('data-year','')
+.attr('hidden','true')
+.style('background-color','rgba(0,0,0,0.50)')
+.style('color','white')
+.style('padding','10px')
+.style('border-radius','5px')
 
 
 d3.select('#tooltip')
@@ -152,11 +161,26 @@ d3.select('#app')
   date.setMonth(dataMonth)
   let month = date.toLocaleString('en-gb',{month:'long'})
 
-  yearTooltip.textContent = `Year: ${dataYear} -${month}`
+  yearTooltip.textContent = `${dataYear}-${month}`
   varianceTooltip.textContent = `Variance: ${dataVariance}`
   tempTooltip.textContent = `Temperature: ${dataTemp}`
 
 
   toolTip.setAttribute('data-year',dataYear)
+
+  //tooltip pos 
+  toolTip.removeAttribute('hidden')
+  toolTip.style.position = 'absolute'
+  toolTip.style.left = `${e.clientX+10}px`
+  toolTip.style.top = `${e.clientY+10}px`
+  console.log(e)
+
 })
 
+
+d3.select('#app')
+.selectAll('.cell')
+.on('mouseout',(e)=>{
+  let toolTip = document.querySelector('#tooltip')
+  toolTip.setAttribute('hidden','')
+})
