@@ -20,6 +20,7 @@ document.querySelector('#root').innerHTML = `
   <div id='app'>
     <h1 id='title'>Monthly Global Land-Surface Temperature</h1>
     <h3 id='description'>1753 - 2015: base temperature ${baseTemp}℃</h3> 
+    <p id='author'>By <a href='https://github.com/Banzaidev' target='__blank'>Banzaidev</a></p>
   </div>
   
 `
