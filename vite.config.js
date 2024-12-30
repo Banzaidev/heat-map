@@ -1,7 +1,5 @@
 export default defineConfig({
-    esbuild: {
-      supported: {
-        'top-level-await': true
-      },
-    },
-  });
+    build: {
+      target: 'esnext' //browsers can handle the latest ES features
+    }
+  })
