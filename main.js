@@ -60,7 +60,7 @@ d3.select('svg')
 .append('g')
 .attr('id','x-axis')
 .attr('transform', `translate(${graph.marginX}, ${graph.height - graph.marginY})`)
-.call(d3.axisBottom(scaleX))
+.call(d3.axisBottom(scaleX).tickSize(16))
 
 
 d3.select('svg')
@@ -72,7 +72,7 @@ d3.select('svg')
   date.setMonth(t)
   let month = date.toLocaleString('en-gb',{month:'long'})
   return month
-}))
+}).tickSize(16))
 
 d3.select('svg')
 .selectAll('rect')
@@ -105,7 +105,7 @@ d3.select('#legend')
 .append('g')
 .attr('id','x-axis-legend')
 .attr('transform', `translate(${graph.marginX},${12})`)
-.call(d3.axisBottom(scaleLegend).tickFormat(d3.format('.1f')))
+.call(d3.axisBottom(scaleLegend).tickFormat(d3.format('.1f')).tickSize(16))
 
 
 d3.select('#legend')
